@@ -23,11 +23,11 @@ app.get('/port', (req, res) => {
 app.get('/db', (req, res) => {
     client.connect()
 
-    client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+    client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, result) => {
         if (err) {
             throw  err
         } else {
-            res.send(res.rows)
+            res.send(result.rows)
         }
         client.end()
     });
