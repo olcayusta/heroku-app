@@ -6,7 +6,9 @@ const client = new Client({
     ssl: {
         rejectUnauthorized: false
     }
-})
+});
+
+client.connect();
 
 const app = express()
 
@@ -22,14 +24,17 @@ app.get('/db', (req, res) => {
     client.connect()
 
     client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-        if (err) throw err;
-        res.json(res.rows)
-        client.end();
+        if (err) {
+            throw  err
+        } else {
+            res.send(res.rows)
+        }
+        client.end()
     });
 })
 
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
-    console.log(`Node.js uygulaması ${PORT} üzerinden ayağa kaldırıldı.`)
+    console.log(`Node.js uygulaması http://localhost:${PORT} üzerinden ayağa kaldırıldı.`)
 })
