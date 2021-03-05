@@ -21,7 +21,6 @@ app.get('/port', (req, res) => {
 })
 
 app.get('/db', async (req, res) => {
-    client.connect()
     const result = await client.query('SELECT table_schema,table_name FROM information_schema.tables;')
     res.send(result.rows)
     client.end()
