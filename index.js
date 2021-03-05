@@ -23,9 +23,7 @@ app.get('/db', (req, res) => {
 
     client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
         if (err) throw err;
-        for (let row of res.rows) {
-            res.json(JSON.stringify(row))
-        }
+        res.json(res.rows)
         client.end();
     });
 })
