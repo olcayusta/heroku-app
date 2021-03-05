@@ -20,17 +20,11 @@ app.get('/port', (req, res) => {
     res.send(process.env.PORT)
 })
 
-app.get('/db', (req, res) => {
+app.get('/db', async (req, res) => {
     client.connect()
-
-    client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, result) => {
-        if (err) {
-            throw  err
-        } else {
-            res.send(result.rows)
-        }
-        client.end()
-    });
+    const result = await client.query('SELECT table_schema,table_name FROM information_schema.tables;')
+    res.send(result.rows)
+    client.end()
 })
 
 const PORT = process.env.PORT || 3000
