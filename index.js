@@ -1,14 +1,10 @@
 const express = require('express')
 const {Client} = require('pg')
 
+/*DATABASE_URL = 'postgres://postgres:123456@localhost:5432/postgres'
 const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-
-
+    connectionString: DATABASE_URL
+})*/
 
 const app = express()
 
@@ -21,10 +17,16 @@ app.get('/port', (req, res) => {
 })
 
 app.get('/db', async (req, res) => {
-    client.connect();
-    const result = await client.query('SELECT table_schema,table_name FROM information_schema.tables;')
-    res.send(result.rows)
-    client.end()
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
+    await client.connect()
+    const {rows} = await client.query('SELECT table_schema,table_name FROM information_schema.tables;')
+    res.send(rows)
+    await client.end()
 })
 
 const PORT = process.env.PORT || 3000
