@@ -1,5 +1,5 @@
-import express from 'express'
-import {Client} from 'pg'
+const express = require('express')
+const {Client} = require('pg')
 
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
