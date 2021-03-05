@@ -10,7 +10,7 @@ app.get('/port', (req, res) => {
     res.send(process.env.PORT)
 })
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
     console.log(`Node.js uygulaması ${PORT} üzerinden ayağa kaldırıldı.`)
