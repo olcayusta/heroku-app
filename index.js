@@ -39,6 +39,11 @@ app.get('/db', async (req, res) => {
     res.send(rows)
 })
 
+app.get('/time', async (req, res) => {
+    const {rows} = await pool.query('SELECT NOW() as now')
+    res.send(rows[0])
+})
+
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
